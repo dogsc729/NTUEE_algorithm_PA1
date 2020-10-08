@@ -74,12 +74,74 @@ void SortTool::MergeSortSubVector(vector<int>& data, int low, int high) {
     // TODO : Please complete MergeSortSubVector code here
     // Hint : recursively call itself
     //        Merge function is needed
+    // test base case; size of vector equals 1
+  if ( ( high - low ) >= 1 ) // if not base case
+    {
+      int middle1;  // calculate middle of vector
+      int middle2;  // calculate next element over
+      middle1 = (low + high)/2;
+      middle2 = middle1 + 1;
+
+      //TODO : recursive function call to split vector in half; sort each half (recursive calls)
+      MergeSortSubVector(data,low,middle1);              // first half of vector      
+      MergeSortSubVector(data,middle2,high);               // second half of vector    
+      
+     
+      // merge two sorted vectors after split calls return
+      Merge( data,low, middle1, middle2, high );
+   } // end if
 }
 
 // Merge
 void SortTool::Merge(vector<int>& data, int low, int middle1, int middle2, int high) {
     // Function : Merge two sorted subvector
     // TODO : Please complete the function
+    int leftIndex = low; // index into left subvector              
+  int rightIndex = middle2; // index into right subvector         
+  int combinedIndex = low; // index into temporary working vector
+  vector< int > combined( data.size() ); // working vector              
+      
+  while ( leftIndex <= middle1 && rightIndex <= high )
+    {
+      // place smaller of two current elements into result
+      // and move to next space in vector
+      if(data[leftIndex] <= data[rightIndex]){
+        combined[combinedIndex] = data[leftIndex];
+        combinedIndex++;
+        //combined[combinedIndex] = data[rightIndex];
+        leftIndex++;
+      }
+      else{
+        combined[combinedIndex] = data[rightIndex];
+        combinedIndex++;
+        //combined[combinedIndex] = data[leftIndex];
+        rightIndex++;
+      }
+    } // end while
+  
+  if ( leftIndex == middle2 ) // if at end of left vector          
+    {                                                               
+      // copy in rest of right vector
+      while(rightIndex <= high){
+        combined[combinedIndex] = data[rightIndex];
+        combinedIndex++;
+        rightIndex++;
+      }
+    } // end if                                                     
+  else // at end of right vector                                   
+    {                                                               
+       // copy in rest of left vector
+       while(leftIndex <= middle1){
+         combined[combinedIndex] = data[leftIndex];
+         combinedIndex++;
+         leftIndex++;
+       }
+    } // end else                                                   
+  
+  //TODO : copy values back into original vector
+  for(int i=low;i<=high;i++){
+    data[i] = combined[i];
+  }
 }
 
 // Heap sort method
