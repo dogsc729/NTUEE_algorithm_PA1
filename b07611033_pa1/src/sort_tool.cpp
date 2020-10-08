@@ -22,7 +22,7 @@ void SortTool::InsertionSort(vector<int>& data) {
             data[i+1] = data[i];
             i = i-1;
         }
-        A[i+1] = 
+        data[i+1] = key;
     }
 }
 
@@ -36,12 +36,31 @@ void SortTool::QuickSortSubVector(vector<int>& data, int low, int high) {
     // TODO : Please complete QuickSortSubVector code here
     // Hint : recursively call itself
     //        Partition function is needed
+    if(low<high){
+        int mid = Partition(data,low,high);
+        QuickSortSubVector(data,low,mid-1);
+        QuickSortSubVector(data,mid+1,high);
+    }
 }
 
 int SortTool::Partition(vector<int>& data, int low, int high) {
     // Function : Partition the vector 
     // TODO : Please complete the function
     // Hint : Textbook page 171
+    int x = data[high];
+    int i = low-1;
+    for(int j = low;low<high;j++){
+        if(data[j]<=x){
+            i++;
+            int temp = data[i];
+            data[i] = data[j];
+            data[j] = temp;
+        }
+    }
+    int temp2 = data[i+1];
+    data[i+1] = data[high];
+    data[high] = temp2;
+    return (i+1); 
 }
 
 // Merge sort method
