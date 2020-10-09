@@ -52,14 +52,10 @@ int SortTool::Partition(vector<int>& data, int low, int high) {
     for(int j = low;low<high;j++){
         if(data[j]<=x){
             i++;
-            int temp = data[i];
-            data[i] = data[j];
-            data[j] = temp;
+            swap(data[i],data[j]);
         }
     }
-    int temp2 = data[i+1];
-    data[i+1] = data[high];
-    data[high] = temp2;
+    swap(data[i+1],data[high]);
     return (i+1); 
 }
 
