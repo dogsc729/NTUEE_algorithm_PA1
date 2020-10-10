@@ -56,7 +56,7 @@ int SortTool::Partition(vector<int> &data, int low, int high)
   // Hint : Textbook page 171
   int x = data[high];
   int i = low - 1;
-  for (int j = low; low < high; j++)
+  for (int j = low; j < high; j++)
   {
     if (data[j] <= x)
     {
