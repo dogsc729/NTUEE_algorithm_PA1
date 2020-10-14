@@ -20,7 +20,7 @@ void SortTool::InsertionSort(vector<int> &data)
   {
     int key = data[j];
     int i = j - 1;
-    while (i > 0 && data[i] > key)
+    while (i >= 0 && data[i] > key)
     {
       data[i + 1] = data[i];
       i = i - 1;
