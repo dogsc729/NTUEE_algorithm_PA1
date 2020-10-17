@@ -82,7 +82,7 @@ void SortTool::MergeSortSubVector(vector<int> &data, int low, int high)
   // Hint : recursively call itself
   //        Merge function is needed
   // test base case; size of vector equals 1
-  if ((high - low) >= 1) // if not base case
+  if (high > low) // if not base case
   {
     int middle1; // calculate middle of vector
     int middle2; // calculate next element over
@@ -103,56 +103,34 @@ void SortTool::Merge(vector<int> &data, int low, int middle1, int middle2, int h
 {
   // Function : Merge two sorted subvector
   // TODO : Please complete the function
-  int leftIndex = low;               // index into left subvector
-  int rightIndex = middle2;          // index into right subvector
-  int combinedIndex = low;           // index into temporary working vector
-  vector<int> combined(data.size()); // working vector
-
-  while (leftIndex <= middle1 && rightIndex <= high)
+  int n1 = middle1 - low + 1; // index into left subvector
+  int n2 = high - middle1;    // index into right subvector
+  vector<int> L(n1 + 1);      // working vector
+  vector<int> R(n2 + 1);
+  for (int i = 0; i < n1; i++)
   {
-    // place smaller of two current elements into result
-    // and move to next space in vector
-    if (data[leftIndex] <= data[rightIndex])
+    L[i] = data[low + i];
+  }
+  for (int j = 0; j < n2; j++)
+  {
+    R[j] = data[middle1 + j + 1];
+  }
+  L[n1] = 2147483647;
+  R[n2] = 2147483647;
+  int i = 0;
+  int j = 0;
+  for (int k = low; k <= high; k++)
+  {
+    if (L[i] <= R[j])
     {
-      combined[combinedIndex] = data[leftIndex];
-      combinedIndex++;
-      //combined[combinedIndex] = data[rightIndex];
-      leftIndex++;
+      data[k] = L[i];
+      i++;
     }
     else
     {
-      combined[combinedIndex] = data[rightIndex];
-      combinedIndex++;
-      //combined[combinedIndex] = data[leftIndex];
-      rightIndex++;
+      data[k] = R[j];
+      j++;
     }
-  } // end while
-
-  if (leftIndex == middle2) // if at end of left vector
-  {
-    // copy in rest of right vector
-    while (rightIndex <= high)
-    {
-      combined[combinedIndex] = data[rightIndex];
-      combinedIndex++;
-      rightIndex++;
-    }
-  }    // end if
-  else // at end of right vector
-  {
-    // copy in rest of left vector
-    while (leftIndex <= middle1)
-    {
-      combined[combinedIndex] = data[leftIndex];
-      combinedIndex++;
-      leftIndex++;
-    }
-  } // end else
-
-  //TODO : copy values back into original vector
-  for (int i = low; i <= high; i++)
-  {
-    data[i] = combined[i];
   }
 }
 
@@ -178,8 +156,8 @@ void SortTool::MaxHeapify(vector<int> &data, int root)
   // TODO : Please complete max-heapify code here
   int l = 2 * root + 1;
   int r = 2 * root + 2;
-  int largest ;
-  if (l < heapSize && data[l] > data[root])//care boundary condition of l<heapsize
+  int largest;
+  if (l < heapSize && data[l] > data[root]) //care boundary condition of l<heapsize
     largest = l;
   else
     largest = root;
@@ -198,6 +176,6 @@ void SortTool::BuildMaxHeap(vector<int> &data)
   heapSize = data.size(); // initialize heap size
   // Function : Make input data become a max-heap
   // TODO : Please complete BuildMaxHeap code here
-  for (int i = (data.size() / 2)-1; i >= 0; i--)
+  for (int i = (data.size() / 2) - 1; i >= 0; i--)
     MaxHeapify(data, i);
 }
